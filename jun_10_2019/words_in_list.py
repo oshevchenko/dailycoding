@@ -17,11 +17,8 @@ string_to_parse_1 = "thequickbrownfox"
 set_of_words_2=['bed', 'bath', 'bedbath', 'beyond', 'and']
 string_to_parse_2 = "bedbathandbeyond"
 
-# set_of_words_2=['bed', 'bedbath', 'beyond', 'and']
-# string_to_parse_2 = "bedbathandbeyond"
-
 set_of_words_3=['bed', 'xxx', 'bedbath', 'bed', 'beyond', 'and']
-string_to_parse_3 = "bedbathandbeyond"
+string_to_parse_3 = "andbedbedbathandbeyond"
 
 
 def recurse(G, set_of_words, string_to_parse, c_index, parent):
@@ -31,13 +28,10 @@ def recurse(G, set_of_words, string_to_parse, c_index, parent):
             f_index = string_to_parse.index(x, c_index)
             if f_index == c_index:
                 # print("FOUND!",x,c_index,string_to_parse)
-                # c_index = c_index +
-                new_set_of_words = []
-                new_set_of_words.extend(set_of_words)
-                new_set_of_words.remove(x)
                 variant = (x, parent)
-                if len(new_set_of_words) != 0:
-                    recurse(G, new_set_of_words, string_to_parse, c_index+len(x), variant)
+                new_c_index = c_index+len(x)
+                if len(string_to_parse) > new_c_index:
+                    recurse(G, set_of_words, string_to_parse, new_c_index, variant)
                 else:
                     # print("append")
                     G.append(variant)
@@ -54,6 +48,8 @@ def recurse(G, set_of_words, string_to_parse, c_index, parent):
 def main(set_of_words, string_to_parse):
     G = []
     recurse(G, set_of_words, string_to_parse, 0, None)
+    # for k in G:
+    #     print(k)
     found = False
     ret=[]
     for k in G:
