@@ -1,0 +1,104 @@
+# This problem was asked by Google.
+
+# You are given an M by N matrix consisting of booleans
+#that represents a board. Each True boolean represents a wall.
+#Each False boolean represents a tile you can walk on.
+
+# Given this matrix, a start coordinate, and an end coordinate,
+# return the minimum number of steps required to reach the end
+# coordinate from the start. If there is no possible path,
+# then return null.
+# You can move up, left, down, and right. You cannot move through walls.
+# You cannot wrap around the edges of the board.
+
+# For example, given the following board:
+
+# [[f, f, f, f],
+# [t, t, f, t],
+# [f, f, f, f],
+# [f, f, f, f]]
+# and start = (3, 0) (bottom left) and end = (0, 0) (top left),
+# the minimum number of steps required to reach the end is 7, since we
+# would need to go through (1, 2) because there is a wall everywhere
+# else on the second row.
+M = 4 #rows
+N = 4 #columns
+
+board = [[False, False, False, False],
+[ True,  True, False,  True],
+[False, False, False, False],
+[False, False, False, False]]
+solution_length=None
+
+def coord_is_valid(coord):
+    if coord[0] < 0 or coord[0] >= M: return None
+    if coord[1] < 0 or coord[1] >= N: return None
+    row = board[coord[0]]
+    wall = row[coord[1]]
+    if wall: return None
+    return coord
+
+
+def move_up(coord):
+    # (3,0) > (2,0)
+    new_coord = (coord[0]-1, coord[1])
+    return coord_is_valid(new_coord)
+def move_down(coord):
+    # (3,0) > (4,0)
+    new_coord = (coord[0]+1, coord[1])
+    return coord_is_valid(new_coord)
+def move_right(coord):
+    # (3,0) > (3,1)
+    new_coord = (coord[0], coord[1]+1)
+    return coord_is_valid(new_coord)
+def move_left(coord):
+    # (3,1) > (3,0)
+    new_coord = (coord[0], coord[1]-1)
+    return coord_is_valid(new_coord)
+
+def variant_len(variant):
+    n=1
+    i = variant[1]
+    while i:
+        n = n + 1
+        i = i[1]
+    return n
+
+def variant_reverse(variant):
+    var=[]
+    n=1
+    var.append(variant[0])
+    i = variant[1]
+    while i:
+        n = n + 1
+        var.append(i[0])
+        i = i[1]
+    var.reverse()
+    return var
+
+
+moves = (move_up, move_down, move_right, move_left)
+def recursive(old_coord, coord, end_coord, parent):
+    global solution_length
+    if solution_length and parent:
+        if variant_len(parent) >= solution_length:
+            return
+    for m in moves:
+        new_coord = m(coord)
+        # print(coord, new_coord)
+        if new_coord and new_coord != old_coord:
+            variant = (new_coord, parent)
+            if new_coord == end_coord:
+                solution_length = variant_len(variant)
+                print(solution_length, variant_reverse(variant))
+            else:
+                recursive(coord, new_coord, end_coord, variant)
+def main(start_coord, end_coord):
+    recursive(start_coord, start_coord, end_coord, None)
+    return solution_length
+
+
+start_coord = (3, 0)
+end_coord = (0, 0)
+steps = main(start_coord, end_coord)
+print("Number of steps to get from", start_coord,"to",end_coord,"is", steps)
