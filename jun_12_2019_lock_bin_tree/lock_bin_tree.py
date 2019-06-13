@@ -21,7 +21,7 @@
 
 class Node(object):
     """docstring for Node"""
-    def __init__(self, data, parent):
+    def __init__(self, data, parent=None):
         super(Node, self).__init__()
         self.locked = False
         self.left = None
@@ -97,7 +97,7 @@ def main():
             132, 137, 142, 147, 152, 157, 162, 167
         ]
 
-    root = Node(100, None)
+    root = Node(100)
     for d in data:
         root.insert(d)
 # 32  37  42  47  52  57  62  67  132  137  142  147  152  157  162  167
