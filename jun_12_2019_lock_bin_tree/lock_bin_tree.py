@@ -83,6 +83,13 @@ class Node(object):
         if not dryrun:
             self.locked = True
         return True
+    def unlock(self):
+        if self.locked:
+            self.locked = False
+            return True
+        else:
+            return False
+
 
 def main():
     data=[
@@ -105,21 +112,20 @@ def main():
 #       40              60                 140                 160
 #             50                                      150
 #                                 100
-    print("Let's lock 160  (False, True, True, False)")
-    print(root.lookup(160).is_locked())
+    print("Let's lock 160  (all True):")
+    print(not root.lookup(160).is_locked())
     print(root.lookup(160).lock())
     print(root.lookup(160).is_locked())
-    print(root.lookup(160).lock())
-    print("Dryrun lock, should be all False:")
-    print(root.lookup(100).lock(True))
-    print(root.lookup(150).lock(True))
-    print(root.lookup(155).lock(True))
-    print(root.lookup(165).lock(True))
-    print(root.lookup(152).lock(True))
-    print(root.lookup(157).lock(True))
-    print(root.lookup(162).lock(True))
-    print(root.lookup(167).lock(True))
+    print(not root.lookup(160).lock())
     print("Dryrun lock, should be all True:")
+    print(not root.lookup(100).lock(True))
+    print(not root.lookup(150).lock(True))
+    print(not root.lookup(155).lock(True))
+    print(not root.lookup(165).lock(True))
+    print(not root.lookup(152).lock(True))
+    print(not root.lookup(157).lock(True))
+    print(not root.lookup(162).lock(True))
+    print(not root.lookup(167).lock(True))
     print(root.lookup(140).lock(True))
     print(root.lookup(135).lock(True))
     print(root.lookup(145).lock(True))
@@ -128,23 +134,40 @@ def main():
     print(root.lookup(60).lock(True))
     print(root.lookup(35).lock(True))
     print(root.lookup(45).lock(True))
-    print("Let's lock 35 (False, True, True, False)")
-    print(root.lookup(35).is_locked())
+    print("Let's lock 35 (all True):")
+    print(not root.lookup(35).is_locked())
     print(root.lookup(35).lock())
     print(root.lookup(35).is_locked())
-    print(root.lookup(35).lock())
-    print("Dryrun lock, should be all False:")
-    print(root.lookup(32).lock(True))
-    print(root.lookup(37).lock(True))
-    print(root.lookup(40).lock(True))
-    print(root.lookup(50).lock(True))
-    print("Dryrun lock, should be all True")
+    print(not root.lookup(35).lock())
+    print("Dryrun lock, should be all True:")
+    print(not root.lookup(32).lock(True))
+    print(not root.lookup(37).lock(True))
+    print(not root.lookup(40).lock(True))
+    print(not root.lookup(50).lock(True))
     print(root.lookup(42).lock(True))
     print(root.lookup(45).lock(True))
     print(root.lookup(52).lock(True))
     print(root.lookup(55).lock(True))
     print(root.lookup(132).lock(True))
     print(root.lookup(140).lock(True))
+    print("Let's unlock 35 (all True):")
+    print(root.lookup(35).is_locked())
+    print(root.lookup(35).unlock())
+    print(not root.lookup(35).is_locked())
+    print(not root.lookup(35).unlock())
+    print("Dryrun lock, should be all True:")
+    print(root.lookup(32).lock(True))
+    print(root.lookup(37).lock(True))
+    print(root.lookup(40).lock(True))
+    print(root.lookup(50).lock(True))
+    print(root.lookup(42).lock(True))
+    print(root.lookup(45).lock(True))
+    print(root.lookup(52).lock(True))
+    print(root.lookup(55).lock(True))
+    print(root.lookup(132).lock(True))
+    print(root.lookup(140).lock(True))
+
+
 
 
 main()
