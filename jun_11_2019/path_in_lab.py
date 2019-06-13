@@ -28,7 +28,6 @@ board = [[False, False, False, False],
 [ True,  True, False,  True],
 [False, False, False, False],
 [False, False, False, False]]
-solution_length=None
 
 def coord_is_valid(coord):
     if coord[0] < 0 or coord[0] >= M: return None
@@ -76,26 +75,39 @@ def variant_reverse(variant):
     var.reverse()
     return var
 
+def overlap(coord, variant):
+    i = variant
+    while i:
+        if coord == i[0]: return True
+        i = i[1]
+    return False
+
+def sortByLength(val):
+    return val[0]
 
 moves = (move_up, move_down, move_right, move_left)
-def recursive(old_coord, coord, end_coord, parent):
-    global solution_length
-    if solution_length and parent:
-        if variant_len(parent) >= solution_length:
-            return
+def recursive(G, old_coord, coord, end_coord, parent):
     for m in moves:
         new_coord = m(coord)
         # print(coord, new_coord)
-        if new_coord and new_coord != old_coord:
+        if new_coord and not overlap(new_coord, parent):
             variant = (new_coord, parent)
             if new_coord == end_coord:
-                solution_length = variant_len(variant)
-                print(solution_length, variant_reverse(variant))
+                length = variant_len(variant)
+                variant = variant_reverse(variant)
+                G.append((length, variant))
+                print(length, variant)
             else:
-                recursive(coord, new_coord, end_coord, variant)
+                recursive(G, coord, new_coord, end_coord, variant)
 def main(start_coord, end_coord):
-    recursive(start_coord, start_coord, end_coord, None)
-    return solution_length
+    G = []
+    recursive(G, start_coord, start_coord, end_coord, None)
+    if len(G):
+        G.sort(key=sortByLength)
+        solution = G[0]
+        return (solution[0])
+    else:
+        return None
 
 
 start_coord = (3, 0)
