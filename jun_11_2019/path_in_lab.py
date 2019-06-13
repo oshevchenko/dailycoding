@@ -56,30 +56,24 @@ def move_left(coord):
     return coord_is_valid(new_coord)
 
 def variant_len(variant):
-    n=1
-    i = variant[1]
-    while i:
+    n=0
+    while variant:
         n = n + 1
-        i = i[1]
+        variant = variant[1]
     return n
 
 def variant_reverse(variant):
     var=[]
-    n=1
-    var.append(variant[0])
-    i = variant[1]
-    while i:
-        n = n + 1
-        var.append(i[0])
-        i = i[1]
+    while variant:
+        var.append(variant[0])
+        variant = variant[1]
     var.reverse()
     return var
 
 def overlap(coord, variant):
-    i = variant
-    while i:
-        if coord == i[0]: return True
-        i = i[1]
+    while variant:
+        if coord == variant[0]: return True
+        variant = variant[1]
     return False
 
 def sortByLength(val):
