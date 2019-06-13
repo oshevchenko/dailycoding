@@ -80,7 +80,7 @@ def sortByLength(val):
     return val[0]
 
 moves = (move_up, move_down, move_right, move_left)
-def recursive(G, old_coord, coord, end_coord, parent):
+def recursive(G, coord, end_coord, parent):
     for m in moves:
         new_coord = m(coord)
         # print(coord, new_coord)
@@ -92,10 +92,10 @@ def recursive(G, old_coord, coord, end_coord, parent):
                 G.append((length, variant))
                 print(length, variant)
             else:
-                recursive(G, coord, new_coord, end_coord, variant)
+                recursive(G, new_coord, end_coord, variant)
 def main(start_coord, end_coord):
     G = []
-    recursive(G, start_coord, start_coord, end_coord, None)
+    recursive(G, start_coord, end_coord, None)
     if len(G):
         G.sort(key=sortByLength)
         solution = G[0]
