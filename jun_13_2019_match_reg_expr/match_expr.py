@@ -29,18 +29,16 @@ def recursive_ast(G, n_ast, n_char, parent):
 def get_n_ast(reg_exp):
     n_ast = 0
     c_index = 0
-    x='*'
     while True:
         try:
-            ast_index = reg_exp.index(x, c_index)
+            ast_index = reg_exp.index('*', c_index)
             c_index = ast_index + 1
             n_ast = n_ast + 1
         except ValueError:
             break
     return n_ast
 
-def extract_valid_variants(G, ast_chars):
-    G_variants = []
+def extract_valid_variants(G_variants, G, ast_chars):
     for i in G:
         variant = []
         while True:
@@ -55,18 +53,21 @@ def extract_valid_variants(G, ast_chars):
             G_variants.append(variant)
     return G_variants
 
+def replace_ast_with_dots(reg_exp_ext, n_dots):
+    for k in range(n_dots):
+        reg_exp_ext = reg_exp_ext + '.'
+    return reg_exp_ext
+
 def extend_reg_exp(G_reg_exp, G_variants, reg_exp):
-    str_len = len(reg_exp)
-    for i in G_variants:
-        i_ast_in_variant = 0
+    for variant in G_variants:
+        index = 0
         reg_exp_ext = ''
-        for j in range(str_len):
-            if reg_exp[j] == '*':
-                for k in range(i[i_ast_in_variant]):
-                    reg_exp_ext = reg_exp_ext + '.'
-                i_ast_in_variant = i_ast_in_variant +1
+        for char in reg_exp:
+            if char == '*':
+                reg_exp_ext = replace_ast_with_dots(reg_exp_ext, variant[index])
+                index = index +1
             else:
-                reg_exp_ext = reg_exp_ext + reg_exp[j]
+                reg_exp_ext = reg_exp_ext + char
         G_reg_exp.append(reg_exp_ext)
     # for reg_exp_var in G_reg_exp:
     #     print(reg_exp_var)
@@ -93,27 +94,26 @@ def match_expr(input_string, reg_exp):
     n_ast = get_n_ast(reg_exp)
     # print("n_ast",n_ast)
     G_reg_exp=[]
+    G_variants=[]
+    G=[]
     if n_ast:
-        G=[]
         ast_chars = len(input_string) - (len(reg_exp)-n_ast)
         # print("ast_chars",ast_chars)
         recursive_ast(G, n_ast, ast_chars, None)
         # if len(G):
         #     for i in G:
         #         print(i)
-
-        G_variants = extract_valid_variants(G, ast_chars)
+        G_variants = extract_valid_variants(G_variants, G, ast_chars)
         G_reg_exp = extend_reg_exp(G_reg_exp, G_variants, reg_exp)
     else:
         if len(reg_exp) == len(input_string):
             G_reg_exp.append(reg_exp)
-        else:
-            return False
+
     match = final_match(G_reg_exp, input_string)
     # print("match", match)
     return match
 
-
+print(not match_expr("sdf0hello wo", "*.he*llllllllllllll**"))
 print(match_expr("sdf0hello wo", "*.he*ll**"))
 print(not match_expr("sdf0hello wo", ".he*ll*"))
 print(match_expr("sdf0hello wo", "*.hell*"))
