@@ -15,9 +15,10 @@ def hit_circle():
     else:
         return True
 def main():
-    G=[]
     cnt = 0
     old_Pi = 0
+    Total = 0
+    Total_N = 0
     while True:
         N_hit = 0
         N_missed = 0
@@ -29,12 +30,10 @@ def main():
         # N = N_hit/N_missed
         # Pi = 4*N/(1+N)
         Pi = 4000*N_hit/(N_missed + N_hit)
-        G.append(Pi)
-        # print(Pi)
-        Total = 0
-        for n in G:
-            Total = Total + n
-        Pi = Total/len(G)
+        Total = Total + Pi
+        Total_N = Total_N + 1
+
+        Pi = Total/Total_N
         if (int(Pi) == old_Pi):
             cnt = cnt+1
         else:
@@ -43,7 +42,7 @@ def main():
             print("Final Pi:",Pi/1000)
             break
         old_Pi = int(Pi)
-        print("Pi:",Total/len(G))
+        print("Pi:",Pi)
 
 
 main()
