@@ -34,7 +34,7 @@ class SLinkedList:
                     self.headval = None
                     return
                 else:
-                    print("Error! k is greater than the length of the list!")
+                    print("Error! k is not smaller than the length of the list!")
                     return
         while True:
             if p_list.nextval == None:
