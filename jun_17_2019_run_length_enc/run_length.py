@@ -9,6 +9,8 @@
 # consists solely of alphabetic characters. You can
 # assume the string to be decoded is valid.
 
+from itertools import repeat
+
 def encode(G, string):
     str_len = len(string)
     char = string[0]
@@ -22,33 +24,56 @@ def encode(G, string):
             break
         del(string[0])
         n += 1
-
     G.append((n, char))
     encode(G, string)
 
-def create_string(s, string):
+def decode(G, string):
+    str_len = len(string)
+    if not str_len: return
+    s_num = ""
+    while True:
+        if not string[0].isdigit():
+            break
+        s_num += string[0]
+        del(string[0])
+    G.append((int(s_num), string[0]))
+    del(string[0])
+    decode(G, string)
+
+
+def decode_string(s, string):
+    G=[]
+    if not len(string):
+        return s
+    string_l = list(string)
+    decode(G, string_l)
+    for (n, char) in G:
+        s = s + "".join(list(repeat(char, n)))
+        # print(s)
+    return s
+
+def encode_string(s, string):
     G=[]
     if not len(string):
         return s
     string_l = list(string)
     encode(G, string_l)
-
     for (n, char) in G:
-        s = s + str(n)
-        s = s + char
+        s += str(n)
+        s += char
         # print(s)
     return s
 
 def main():
     string = "AAAABBBCCDAA"
-    # string = "A"s
+    # string = "A"
     # string = ""
-    s = ""
-    s = create_string(s, string)
     print(string)
-    print(s)
-    # for el in G:
-    #     print(el)
+    e_s = encode_string("", string)
+    print(e_s)
+    d_s = decode_string("", e_s)
+    print(d_s)
+
 main()
 
 
