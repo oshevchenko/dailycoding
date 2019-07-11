@@ -21,17 +21,13 @@ def variant(seq, var, G):
         return
 
     for s in range(len(seq)):
-        new_var = []
-        new_var = new_var + var
-        new_seq = []
-        new_seq = new_seq + seq
-
+        new_var = var.copy()
+        new_seq = seq.copy()
         new_var.append(seq[s])
         del new_seq[s]
         # print(new_var)
         if len(new_var) > 1:
-            new_var_full = []
-            new_var_full = new_var_full + new_var
+            new_var_full = new_var.copy()
             new_var_full.append(new_var_full[0])
             G.append(new_var_full)
 
@@ -47,6 +43,9 @@ def main():
 
     variant(seq, var, G)
     print("0 - UAH, 1 - USD, 2 - EUR")
+    print("Variant [(0, 1), (1, 2), (2, 0)] means:")
+    print("exchange hryvna to USD, then USD to euro and finally euro to hryvna.")
+    print("If total > 1.0 then arbitrage is possible.")
     # print(G)
     G_cells = []
     for k in G:
@@ -60,7 +59,7 @@ def main():
             # print(cell[0])
             total = total * E[cell[0]][cell[1]]
             # print(total)
-        print("%.4f" % total, k)
+        print("total: %.4f" % total, k)
 
 main()
 
