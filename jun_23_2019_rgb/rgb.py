@@ -14,11 +14,11 @@ characters = ['R', 'G', 'B']
 
 def partition(A, lo, hi):
     global characters
-    pivot = A[hi]
+    pivot_index = characters.index(A[hi])
     i = lo
     j = lo
     while j < hi:
-        if characters.index(A[j]) < characters.index(pivot):
+        if characters.index(A[j]) < pivot_index:
             # print("swap A[i] with A[j]",i,j)
             A[i], A[j] = A[j], A[i]
             i = i + 1
