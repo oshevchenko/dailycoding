@@ -20,28 +20,20 @@ def partition(A, lo, hi):
     while j < hi:
         if characters.index(A[j]) < characters.index(pivot):
             # print("swap A[i] with A[j]",i,j)
-            x = A[i]
-            A[i] = A[j]
-            A[j] = x
+            A[i], A[j] = A[j], A[i]
             i = i + 1
         j+=1
     # print("swap A[i] with A[hi]",i,hi)
-    x = A[i]
-    A[i] = A[hi]
-    A[hi] = x
-
+    A[i], A[hi] = A[hi], A[i]
     return i
 
 def quicksort(A, lo, hi):
     if lo < hi:
         p = partition(A, lo, hi)
-        # print(p, A)
         quicksort(A, lo, p - 1)
         quicksort(A, p + 1, hi)
 
 def main():
-
-    # A = [5,3,3,4,1,3,8,2,13,54]
     A = ['G', 'B', 'R', 'R', 'B', 'R', 'G']
     quicksort(A, 0, len(A)-1)
     print(A)
