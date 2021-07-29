@@ -7,4 +7,4 @@ OBJ = point-poly.o
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 point-poly: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -o build/$@ $^ $(CFLAGS)
