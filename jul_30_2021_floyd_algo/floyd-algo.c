@@ -1,7 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #define INFINITY  1000
 #define MAX_NODES 5
+
+//           5 Nodes.
+//
+//             3       5       4
+//         1 ----- 2 ----- 4 ----- 5
+//          \             /       /
+//       10  \         6 /    15 /
+//            \         /       /
+//             \       /       /
+//               -- 3 --------
+//
 #if 1
 int dd[MAX_NODES][MAX_NODES] = {
     {0, 3, 10, INFINITY, INFINITY},
@@ -11,6 +23,7 @@ int dd[MAX_NODES][MAX_NODES] = {
     {INFINITY, INFINITY, INFINITY, 4,0}
 };
 #endif
+
 #if 0
 int dd[MAX_NODES][MAX_NODES] = {
     {0, 3, 100, INFINITY, INFINITY},
@@ -20,6 +33,7 @@ int dd[MAX_NODES][MAX_NODES] = {
     {INFINITY, INFINITY, INFINITY, 4,0}
 };
 #endif
+
 int ss[MAX_NODES][MAX_NODES] = {
     {0,2,3,4,5},
     {1,0,3,4,5},
