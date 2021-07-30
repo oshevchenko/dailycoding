@@ -8,12 +8,14 @@
 //
 //             3       5       4
 //         1 ----- 2 ----- 4 ----- 5
-//          \             /       /
+//          \             /       ^
 //       10  \         6 /    15 /
 //            \         /       /
 //             \       /       /
 //               -- 3 --------
 //
+// Path from 3 to 5 is uni direction - from 3 towards 5.
+// 
 #if 1
 int dd[MAX_NODES][MAX_NODES] = {
     {0, 3, 10, INFINITY, INFINITY},
