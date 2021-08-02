@@ -4,24 +4,27 @@
 #define INFINITY  1000
 #define MAX_NODES 5
 
-//           5 Nodes.
+// 5 nodes with lenth for each path are given.
+// Find the shortest path from node 5 to node 1 (5 > 4 > 3 > 1).
 //
-//             3       5       4
-//         1 ----- 2 ----- 4 ----- 5
-//          \             /       ^
-//       10  \         6 /    15 /
-//            \         /       /
-//             \       /       /
-//               -- 3 --------
+//            3    105    
+//         1 --- 2 --- 4 
+//          \         /  \
+//           \    66 /    \ 4
+//         1  \     /      \ 
+//             \   /        \
+//               3 --------> 5
+//                     19
 //
-// Path from 3 to 5 is uni direction - from 3 towards 5.
+// Path from 3 to 5 is unidirectional - from 3 towards 5.
 // 
+
 #if 1
 int dd[MAX_NODES][MAX_NODES] = {
-    {0, 3, 10, INFINITY, INFINITY},
-    {3, 0, INFINITY, 5, INFINITY},
-    {10, INFINITY, 0, 6, 15},
-    {INFINITY,5,6,0,4},
+    {0, 3, 1, INFINITY, INFINITY},
+    {3, 0, INFINITY, 105, INFINITY},
+    {1, INFINITY, 0, 66, 19},
+    {INFINITY,105,66,0,4},
     {INFINITY, INFINITY, INFINITY, 4,0}
 };
 #endif
@@ -62,6 +65,7 @@ void print_arrays()
         }
         printf( "\n");
     }
+    printf( "===================================\n");
 };
 
 void floyd_algo()
@@ -82,19 +86,28 @@ void floyd_algo()
 
     }
 }
+
+int path(int start, int finish)
+{
+    int middle;
+    if (finish == ss[start-1][finish-1]) return start;
+    middle = ss[start-1][finish-1];
+    path(middle, finish);
+}
 // Driver Code
 int main()
 {
-    int start = 1, finish = 5;
+    // int start = 5, finish = 2;
+    int start = 5, finish = 1;
     print_arrays();
     floyd_algo();
-    printf("Path from %d to %d in reverse", start, finish);
-    while (1) {
-        printf("%3d <", finish);
-        if (finish == ss[start-1][finish-1]) break;
-        finish = ss[start-1][finish-1];
-    }
-    printf("%4d\n", start);
+    printf("Path from %d to %d in reverse: ", start, finish);
+    printf("%3d ", finish);
+    do {
+        finish = path(start,finish);
+        printf("<%3d ", finish);
+    } while (finish != start);
+    printf("\n");
     return 0;
 }
  
